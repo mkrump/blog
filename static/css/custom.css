@@ -1,13 +1,11 @@
 .center-image {
     margin: 0 auto;
     display: block;
-    width: 90%;
 }
 
 .center-figure-image > img {
     margin: 0 auto;
     display: block;
-    width: 90%;
 }
 
 .image-caption {
