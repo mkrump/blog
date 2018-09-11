@@ -45,7 +45,7 @@ GCD(a, b) &= GCD(b, r_1) \newline
 
 The Wikipedia page provides a good overview of the algorithm, and has several nice visualizations like the one below that attempt to explain the algorithm. 
  
-{{<figure src="https://upload.wikimedia.org/wikipedia/commons/3/37/Euclid%27s_algorithm_Book_VII_Proposition_2_3.png" class="center-figure-image" >}}
+{{< figure src="/assets/2017-06-16-euclid.png" class="float" >}}
 
 While the visualizations provide a nice representation as to *__how__* the algorithm works, I didn't think they really explained *__why__* it works. 
  
