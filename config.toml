@@ -1,6 +1,7 @@
 baseurl = "https://matthewkrump.com"
 title = ""
 copyright = "Copyright &copy; 2017 - Matthew Krump"
+enableRobotsTXT = true
 canonifyurls = true
 theme = "kiera"
 
