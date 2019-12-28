@@ -7,6 +7,6 @@
 [submodule "themes/minimo"]
 	path = themes/minimo
 	url = https://github.com/MunifTanjim/minimo
-[submodule "themes/kiera"]
-	path = themes/kiera
-	url = https://github.com/avianto/hugo-kiera.git
+[submodule "hugo-kiera"]
+	path = hugo-kiera
+	url = https://github.com/funkydan2/hugo-kiera.git
