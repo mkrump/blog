@@ -14,11 +14,11 @@ pygmentsCodeFences = true
 [author]
     name = "Matt Krump"
     github = "mkrump"
-    gitlab = ""
+#    gitlab = ""
     linkedin = "matthewkrump"
-    facebook = ""
-    twitter = ""
-    instagram = ""
+#    facebook = ""
+#    twitter = ""
+#    instagram = ""
 
 
 
