@@ -9,7 +9,7 @@
     "articleSection" : {{ .Section }},
     "name" : {{ .Title }},
     "headline" : {{ .Title }},
-    "description" : {{ if .Description }}{{ .Description }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ end }}{{ end }},
+    "description" : {{ if .Description }} {{ .Description }} {{ else if (and (.IsPage) (.Summary))}} {{.Summary}} {{ else }}  {{.Title}} {{ end }},
     "inLanguage" : "en-US",
     "author" : {{ index .Site.Author "name"}},
     "creator" : {{ index .Site.Author "name"}},
@@ -23,4 +23,5 @@
     "wordCount" : {{ .WordCount }},
     "keywords" : [ {{ if isset .Params "tags" }}{{ range .Params.tags }}{{ . }},{{ end }}{{ end }}"Blog" ]
 }
+
 </script>
