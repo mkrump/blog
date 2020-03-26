@@ -12,6 +12,7 @@
   {{ partial "meta" . }}
   {{ partialCached "header_includes" . -}}
   {{ if .Params.mathjax}}{{ partial "mathjax_support.html" . }}{{ end }}
+  {{ if  .Site.Params.googleAnalytics }} {{ partial "analytics.html" . }} {{ end }}
 </head>
 
 <body>

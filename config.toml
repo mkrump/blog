@@ -11,6 +11,9 @@ summaryLength = 30
 enableEmoji = true
 pygmentsCodeFences = true
 
+[params]
+    googleAnalytics = "G-L2M1XDTLC0"
+
 [author]
     name = "Matt Krump"
     github = "mkrump"
