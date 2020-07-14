@@ -18,8 +18,7 @@ Cats? Clearly.
 
 GIFs? Check.
 
-<iframe src="https://giphy.com/embed/l41YlCTJyClA4HFba" width="480" height="244" frameBorder="0" class="giphy-embed center-image" allowFullScreen></iframe>
-&nbsp;
+{{<figure src="https://media.giphy.com/media/l41YlCTJyClA4HFba/giphy.gif">}}
 
 
 But how does this all work? How does Google know where to send me when I search
@@ -57,10 +56,7 @@ multiple levels above or below. The multilevel set of protocols used on the
 Internet is called the [Internet protocol
 suite](https://en.wikipedia.org/wiki/Internet_protocol_suite). The diagram from
 Wikipedia below describes the basic structure.
-{{< figure src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/IP_stack_connections.svg/490px-IP_stack_connections.svg.png" class="center-figure-image">}} 
-<p class="image-caption">
-*By en:User:Kbrose (Prior Wikipedia artwork by en:User:Cburnett) [<a href="http://www.gnu.org/copyleft/fdl.html">GFDL</a> or <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA-3.0</a>], <a href="https://commons.wikimedia.org/wiki/File%3AIP_stack_connections.svg">via Wikimedia Commons</a>*
-</p>
+{{< figure src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/IP_stack_connections.svg/490px-IP_stack_connections.svg.png" caption="*By en:User:Kbrose (Prior Wikipedia artwork by en:User:Cburnett)" attr="Wikimedia Commons" attrlink="https://commons.wikimedia.org/wiki/File%3AIP_stack_connections.svg">}}
 
 
 Using a multilevel architecture allows for upper levels of the network to ignore
@@ -127,7 +123,6 @@ And that's the Internet protocol suite. Every GIF, Facebook post and Google
 search all follow the same process in moving from the server to our devices. 
 
 &nbsp;
-<iframe src="https://giphy.com/embed/KINAUcarXNxWE" width="480" height="320" frameBorder="0" class="giphy-embed center-image" allowFullScreen></iframe>
-&nbsp;
+{{< figure src="https://media.giphy.com/media/KINAUcarXNxWE/giphy.gif" >}}
 
  
