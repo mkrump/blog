@@ -3,7 +3,6 @@ mathjax: true
 title:  A Step-By-Step Guide to Authenticating Netlify Go Functions Using Netlify Identity
 date:   2020-07-13 08:30:00 -0500
 authors: ["mkrump"]
-draft: true
 categories: ["go", "golang", "netlify", "authentication"]
 ---
 I’ve hosted this blog on Netlify for a couple years now, and found it to be a really fantastic service. It's especially ideal for something like a blog, since it’s likely to be [free](https://www.netlify.com/pricing/), doesn’t require managing any infrastructure, and deploys are done via a simple git push. But since I first started using Netlify, they’ve dramatically expanded their offerings so that it’s now possible to build a lot more than just static sites.  
