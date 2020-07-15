@@ -222,7 +222,7 @@ centered around 1%.
   (set-theme-bw plot))
 ```
 
-{{<figure src="/assets/reservoir-boxplot-updated.png" class="center-figure-image">}}
+{{<figure src="/assets/reservoir-boxplot-updated.png" class="center-figure-image" >}}
 
 Like I said earlier, I'm really enjoying the declarative way that Clojure code
 is written. You can almost do a word for word transcription of an algorithm to

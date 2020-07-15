@@ -1,48 +1,39 @@
-<!doctype html>
-
-<html lang="{{ .Site.LanguageCode | default "en" }}">
-
-<!doctype html>
-
-<html lang="{{ .Site.LanguageCode | default "en" }}">
-
 <head>
-  <title>{{ .Site.Title }}</title>
-  {{ partial "seo_schema" . }}
-  {{ partial "meta" . }}
-  {{ partialCached "header_includes" . -}}
   {{ if .Params.mathjax}}{{ partial "mathjax_support.html" . }}{{ end }}
-  {{ if  .Site.Params.googleAnalytics }} {{ partial "analytics.html" . }} {{ end }}
 </head>
 
-<body>
-<div id="container">
-  <header>
-    <h1>
-      <a href="{{ relLangURL "/" }}">{{ .Site.Title | markdownify }}</a>
-    </h1>
+<header id="nav" class="header">
+  <div class="ax-l-i{{ printf " %s" (.Params.maxWidthHeader | default "max-w-6xl") }}">
+    <div class="ax-logo">
+      {{- $logo := printf `<span class="font-semibold text-raven-900">%s</span>` .Site.Title }}
+      {{- if (and (reflect.IsMap .Site.Params.logo) (isset .Site.Params.logo "path") (isset .Site.Params.logo "inline")) }}
+        {{- $logoPath := .Site.Params.logo.path -}}
+        {{- $logoInline := .Site.Params.logo.inline -}}
+        {{- with $logoPath }}
+          {{- if eq $logoInline true }}
+            {{- $logoPath := printf "%s%s" "/static/" (trim $logoPath "/") -}}
+            {{- $logo = chomp (readFile $logoPath) }}
+          {{- else }}
+            {{- $logoSrc := partial "cdn-src" (dict "Site" $.Site "Page" . "src" $logoPath) }}
+            {{- $logo = printf `<img src="%s" alt="%s">` $logoSrc $.Site.Title }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+      <a class="block" href="{{ "/" | relLangURL }}" title="{{ .Site.Title }}">{{- $logo | safeHTML -}}</a>
+    </div>
+    <div class="ax-user">
+      <a class="p-2 w-8 h-8 block text-raven-500 hover:text-gray-800 focus:text-gray-800 focus:outline-none" target="_blank" rel="noopener nofollow" href="https://www.google.com/search?q=site:{{ .Site.Params.brand.domain | default .Site.BaseURL }}" title="{{ (T "search" .) }}">
+        {{ partial "svg/search.svg" (dict "class" "fill-current") }}
+      </a>
+      {{- $currentPage := . }}
+      {{- range (.Site.Menus.main) }}
+      {{- $isCurrent := (eq (trim $currentPage.RelPermalink "/") (trim .URL "/")) }}
+      <a class="p-2 block text-base leading-none{{ if $isCurrent }} text-gray-500 cursor-not-allowed{{ else }} text-raven-500 hover:text-gray-800 focus:text-gray-800 focus:outline-none{{ end }}"{{ if not $isCurrent }} href="{{ .URL | relLangURL }}"{{ end }}>
+        {{ .Name }}
+      </a>
+      {{- end }}
+    </div>
+  </div>
 
-    <ul id="social-media">
-      {{- range .Site.Languages -}}
-        {{ if ne .LanguageName $.Site.Language.LanguageName }}
-          <li><a href="/{{ .Lang }}">{{ .LanguageName }}</a></li>
-        {{ end }}
-      {{- end -}}
-      {{- range .Site.Data.social.social_icons -}}
-        {{- if isset $.Site.Author .id }}
-          <li>
-            <a href="{{ printf .url (index $.Site.Author .id) }}" title="{{ .title }}">
-              <i class="{{ .icon }} fa-lg"></i>
-            </a>
-          </li>
-        {{- end -}}
-      {{ end }}
-    </ul>
-    {{ with .Site.Params.tagline }}
-      <p><em>{{ . | markdownify }}</em></p>
-    {{ end }}
-  </header>
-
-  {{ partial "nav" . }}
-
-  <main>
+  {{/* menu-mobile */}}
+</header>

@@ -1,27 +1,150 @@
-baseURL = "https://matthewkrump.com/"
-title = ""
-copyright = "Copyright &copy; 2017 - Matthew Krump"
-enableRobotsTXT = true
-canonifyurls = true
-theme = "hugo-kiera"
+baseURL = "https://matthewkrump.com"
+
+title = "matthewkrump.com"
+languageCode = "en-us"
+defaultContentLanguage = "en"
+
+theme = "axiom"
 
 paginate = 10
-
-summaryLength = 30
+canonifyURLs = false
+summaryLength = 40
+rssLimit = 100
 enableEmoji = true
-pygmentsCodeFences = true
+enableRobotsTXT = true
+pluralizelisttitles = false
+
+[permalinks]
+posts = "/:filename"
 
 [params]
-    googleAnalytics = "G-L2M1XDTLC0"
+mainSections = ["posts"]
+copyrightYear = 2017
+# Go Reference time: Mon Jan 2 15:04:05 MST 2006
+dateFormat = "Jan 2, 2006 3:04PM"
+highlight = "dark"
 
-[author]
-    name = "Matt Krump"
-    github = "mkrump"
-#    gitlab = ""
-    linkedin = "matthewkrump"
-#    facebook = ""
-#    twitter = ""
-#    instagram = ""
+[params.brand]
+domain = "matthewkrump.com"
+email = ""
 
+[params.social]
+facebook = ""
+github = "https://github.com/mkrump"
+linkedin = "https://www.linkedin.com/in/matthewkrump/"
+stackoverflow = ""
+twitter = ""
+youtube = ""
+footer = ["github", "linkedin"]
 
+[params.services]
+googleAnalyticsId = "G-L2M1XDTLC0"
+googleTagManagerId = ""
+googleAdsId = ""
+googleAdsenseId = ""
+googleAdsenseAdSlotId = ""
+googleAdsenseLoad = ""
+googleAdsConversionId = ""
+googleAdsConversionValue = 0
+facebookApp = ""
+facebookPixel = ""
+disqusShortname = ""
 
+[params.logo]
+inline = false
+#path = "assets/1036969.jpeg"
+path = ""
+
+[params.image]
+width = "2048"
+height = "1024"
+faviconIco = "favicon.ico"
+faviconAlt = ""
+icon1To1 = ""
+icon2To1 = ""
+default = ""
+
+[params.font]
+type = ""
+path = ""
+files = []
+
+[params.cdn]
+provider = "local"
+type = "image"
+
+[params.cloudinary]
+host = "https://res.cloudinary.com/CLOUD_NAME/"
+version = ""
+image = "image/upload/"
+raw = "raw/upload/"
+video = "video/upload/"
+
+[params.cloudinary.presets]
+base = "f_auto,q_auto/"
+page = "w_auto,dpr_auto,c_scale,f_auto,q_auto/"
+feature = "w_auto,dpr_auto,c_scale,f_auto,q_auto/"
+summary = "w_auto,dpr_auto,c_scale,f_auto,q_auto/"
+
+[outputs]
+home = ["HTML", "ATOM"]
+section = ["HTML"]
+taxonomy = ["HTML"]
+taxonomyTerm = ["HTML"]
+
+[outputFormats]
+[outputFormats.ATOM]
+name = "ATOM"
+baseName = "feed"
+mediaType = "application/atom+xml"
+
+[mediaTypes]
+[mediaTypes."application/atom+xml"]
+suffixes = ["atom"]
+
+[markup]
+[markup.goldmark]
+[markup.goldmark.extensions]
+definitionList = false
+footnote = true
+linkify = false
+strikethrough = false
+table = true
+taskList = false
+typographer = false
+[markup.goldmark.renderer]
+unsafe = true
+[markup.goldmark.parser]
+attribute = false
+[markup.highlight]
+codeFences = true
+noClasses = false
+tabWidth = 2
+# lineNos = true
+# lineNumbersInTable = false
+
+[menu]
+[[menu.main]]
+url = "/posts/"
+name = "Posts"
+weight = 1
+
+[[menu.foot]]
+url = "/posts/"
+name = "Posts"
+weight = 1
+
+[[menu.foot]]
+url = "/contact/"
+name = "Contact"
+weight = 2
+
+[[menu.foot]]
+url = "/about/"
+name = "About"
+weight = 3
+
+[languages]
+[languages."en"]
+weight = 1
+languageName = "English"
