@@ -9,7 +9,7 @@ I’ve hosted this blog on Netlify for a couple years now, and have found it to 
 
 I recently had an idea for a [small language learning app](https://contemos.app/), and I was curious to see how difficult it would be to get something slightly more complicated than a blog deployed on Netlify. My plan was to write the backend in Go, since it along with JavaScript, is one of the two languages supported by [Netlify Functions](https://www.netlify.com/products/functions/), which are essentially AWS Lambda functions, but with all of the setup and deployment handled by Netlify. Also, I decided to add a login page, because why not?, and conveniently Netlify has its own [identity management service](https://docs.netlify.com/visitor-access/identity/).
 
-Overall, it was very smooth process, and I was able to get my app deployed with minimal hassle. The various services all worked well together, and Netlify's docs are really good, however there were couple spots where I did get little stuck even after reading the relevant docs. At least some of the issues that I ran into, are probably specific to the Go side of things, since at the moment it seems slightly less well supported than JavaScript as a backend. As an example, if you want to test your deployed setup locally you can use [Netlify Dev](https://www.netlify.com/products/dev/) which looks great, however at the moment it appears that it [doesn’t support Go](https://community.netlify.com/t/working-with-go-functions-locally-and-in-deployment/3530/7). 
+Overall, it was a very smooth process, and I was able to get my app deployed with minimal hassle. The various services all worked well together, and Netlify's docs are really good, however there were a couple spots where I did get a little stuck even after reading the relevant docs. At least some of the issues that I ran into, are probably specific to the Go side of things, since at the moment it seems slightly less well supported than JavaScript as a backend. As an example, if you want to test your deployed setup locally you can use [Netlify Dev](https://www.netlify.com/products/dev/) which looks great, however at the moment it appears that it [doesn’t support Go](https://community.netlify.com/t/working-with-go-functions-locally-and-in-deployment/3530/7). 
 
 Since I had some questions along the way, to fill in gaps in my own understanding, and serve as documentation to my future self, I put together an  example site, demonstrating how to secure a Go Netlify Function using Netlify's Identity service. The repo can be found at [mkrump/go-netlify-login-example](https://github.com/mkrump/go-netlify-login-example) and the live site [here](https://go-netlify-login-example.netlify.app/). Below is a step-by-step guide for deploying this repo with Netlify.
 
@@ -40,12 +40,12 @@ We aren't going to focus too much on the front-end, since I found plenty of exam
 
 If we startup the dev server with `npm install && npm start` we’ll see a link for a "Protected Page". However, if we try to visit the "Protected Page" we'll see a message “Must be logged in to access this route". And when we try to login we’ll see the following message: "Looks like you’re running a local server. Please let us know the URL of your Netlify site."
 
-Before we can login in either local dev or on the live site, we’ll need to enable Identity for our site. To do this run `netlify open` (or open up the Netlify UI) then click the "Identity" tab followed by "Enable Identity". Now that we have our identity service enabled, head back to the "Overview" tab and copy the full url of our site and paste it into the dialog that we were seeing on local dev. 
+Before we can login in to either local dev or the live site, we’ll need to enable Identity for our site. To do this run `netlify open` (or open up the Netlify UI) then click the "Identity" tab followed by "Enable Identity". Now that we have our identity service enabled, head back to the "Overview" tab and copy the full url of our site and paste it into the dialog that we were seeing on local dev. 
 
 Now that our identity service is setup, we should be able to sign up and login to our site and once logged in we'll now be able to visit the "Protected Page". 
 
 ## Deploying the Go Function 
-Our Go function will have automatically been deployed with our initial site deploy and we should be able to see it when we visit the "Fuctions" tab in the Netlify UI.
+Our Go function will have automatically been deployed with our initial site deploy and we should be able to see it when we visit the "Functions" tab in the Netlify UI.
 
 Netlify assumes our functions are contained in a top-level `functions` directory; however, this can be overridden via the UI or in the `netlify.toml` file. For each deploy, the designated directory will be referenced, and each supported code file will be zipped and deployed as a Lambda function on AWS. 
 
@@ -73,7 +73,7 @@ export function generateHeaders() {
 }
 ```
 
-So the question is how do we verify a request is authorized on the backend. The relevant [Go docs](https://docs.netlify.com/functions/build-with-go/#access-the-clientcontext) show the example code below:
+So the question is how do we verify if a request is authorized on the backend. The relevant [Go docs](https://docs.netlify.com/functions/build-with-go/#access-the-clientcontext) show the example code below:
 
 ```golang
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
@@ -94,7 +94,7 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 }
 ```
 
-However, based on the example code, it wasn’t clear to me how we should be checking that a user’s claim is valid. When I logged the `LambdaContext` associated with every request, a valid `LambdaContext` was always present regardless of the validity of the user's claim. However, if we look at the `LambdaContext` context object returned from `lambdacontext.FromContext` we can see it has a `Custom` map attached to `ClientContext` and if we log this map we can see that this is where response from the identity service gets attached. Specifically, when a claim is valid the decoded "netlify" entry in the `Custom` map, will contain a `User` object, while the `User` object will not be present when the claim is not valid. We can verify this by checking our logs after making a request to our deployed site. After each request, in the logs we'll a `Custom` map with a "netlify" key.  
+However, based on the example code, it wasn’t clear to me how we should be checking that a user’s claim is valid. When I logged the `LambdaContext` associated with every request, a valid `LambdaContext` was always present regardless of the validity of the user's claim. However, if we look at the `LambdaContext` object returned from `lambdacontext.FromContext` we can see it has a `Custom` map attached to `ClientContext` and if we log this map we can see that this is where the response from the identity service gets attached. Specifically, when a claim is valid the decoded "netlify" entry in the `Custom` map will contain a `User` object, while the `User` object will not be present when the claim is not valid. We can verify this by checking our logs after making a request to our deployed site. After each request, in the logs we'll see a `Custom` map with a "netlify" key.  
 
 So our handler ends up looking like below ([full code](https://github.com/mkrump/go-netlify-login-example/blob/master/api/main.go#L45)):  
 
@@ -139,12 +139,12 @@ The process of checking these claims could pretty easily be extracted into a mid
 
 ## Verifying claims
 
-So the full process ends up of being: frontend attaches jwt to request -> Netlify's identity service verifies the jwt -> backend checks that user object is present. We can verify this process by creating a new user and logging into the [example app](https://go-netlify-login-example.netlify.app/).
+So the full process ends up being: frontend attaches jwt to request -> Netlify's identity service verifies the jwt -> backend checks that the `User` object is present. We can verify this process by creating a new user and logging into the [example app](https://go-netlify-login-example.netlify.app/).
 
-Once logged in, visit the "Protected Page" and we'll see two claims, each with its own submit button. The first is the current logged in user's jwt, which would be submitted along with all real requests. The second claim is a fake jwt, which can be edited. If we open the network tab in our dev tools and submit a request, we'll see the jwt being sent in the request header. In the case of the valid jwt, our app will render the decoded Netlify Identity response containing the logged in user. However, when we submit the fake jwt, the rendered response will not have a user object attached. We can experiment a little further, by copying our actual jwt into [jwt.io](https://jwt.io/) and then slightly altering it (i.e. change the email) and then trying to submit the altered token. Again, the user object won't be attached, and the associated request would be rejected.
+Once logged in, visit the "Protected Page" and we'll see two claims, each with its own submit button. The first is the current logged in user's jwt, which would be submitted along with all real requests. The second claim is a fake jwt, which can be edited. If we open the network tab in our dev tools and submit a request, we'll see the jwt being sent in the request header. In the case of the valid jwt, our app will render the decoded Netlify Identity response containing the logged in user. However, when we submit the fake jwt, the rendered response will not have a user object attached. We can experiment a little further, by copying our actual jwt into [jwt.io](https://jwt.io/) and then slightly altering it (i.e. change the email) and then submitting the altered token. Again, the user object won't be attached, and the associated request would be rejected.
 
 ## Yay Netlify!
 
-All in all, it's pretty amazing how quickly you can get a reasonably complicated project up and running on Netlify without needing to manage any infrastructure. 
+All in all, it's pretty amazing how quickly you can get a reasonably complicated project up and running on Netlify all without needing to manage any infrastructure. 
 
 The deployed version of the example app can be found [here](https://go-netlify-login-example.netlify.app/) and its associated GitHub repo [here](https://github.com/mkrump/go-netlify-login-example).
