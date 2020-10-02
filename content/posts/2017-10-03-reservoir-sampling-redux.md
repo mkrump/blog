@@ -120,7 +120,7 @@ thereby produces an unbiased sample.
 
 # Proving Reservoir Sampling Results in an Unbiased Sample
 
-The \\( i_{th} \\) element is included in the sample whenever our random integer \\( j
+The \\( i\_{th} \\) element is included in the sample whenever our random integer \\( j
 \leq k \\), which occurs with probability \\( \frac{k}{i} \\). Recall, there are \\( k \\)
 total elements in the reservoir and \\( i \\) is the number of elements observed up to
 this point in the stream. The probability of any integer between 1 and \\( i \\) being
