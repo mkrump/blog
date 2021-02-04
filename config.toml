@@ -62,7 +62,7 @@ faviconIco = "favicon.ico"
 faviconAlt = ""
 icon1To1 = ""
 icon2To1 = ""
-default = ""
+default = "/assets/metaimg.png"
 
 [params.font]
 type = ""
