@@ -38,8 +38,8 @@ youtube = ""
 footer = ["github", "linkedin"]
 
 [params.services]
-googleAnalyticsId = "G-L2M1XDTLC0"
-googleTagManagerId = ""
+googleAnalyticsId = ""
+googleTagManagerId = "GTM-KJWKVXK"
 googleAdsId = ""
 googleAdsenseId = ""
 googleAdsenseAdSlotId = ""
